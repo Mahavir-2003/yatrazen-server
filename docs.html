@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      type="image/png"
+      sizes="120x120"
+      rel="icon"
+      href="./assets/favicon.png"
+    />
+    <title>v3 API Error</title>
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #1b1b1e;
+        color: #ffffff;
+      }
+
+      .alert {
+        padding: 20px;
+        border: 2px solid #fff;
+        background-color: rgba(0, 0, 0, 0.3);
+        border-radius: 20px;
+        text-align: center;
+        color: #fff;
+      }
+
+      .alert p {
+        margin: 1rem;
+        font-size: 1.5rem;
+      }
+
+      .code {
+        padding: 10px;
+        border-radius: 15px;
+      }
+
+      .code p {
+        margin: 1rem;
+        font-family: Inter;
+        font-size: 1.5rem;
+      }
+
+      .code code {
+        display: block;
+        background-color: rgba(255, 255, 255, 0.2);
+        padding: 20px;
+        border-radius: 10px;
+        border: 2px solid #fff;
+        font-size: 1rem;
+      }
+
+      .or {
+        margin: 1rem;
+        font-size: 1.5rem;
+      }
+
+      /* media queries */
+
+      @media (max-width: 768px) {
+        .alert {
+          width: 80%;
+        }
+
+        .code code {
+          font-size: 0.8rem;
+        }
+
+        .code p {
+          font-size: 1rem;
+        }
+
+        .or {
+          font-size: 1rem;
+        }
+
+        .alert p {
+          font-size: 1.2rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .alert {
+          width: 90%;
+        }
+
+        .code code {
+          font-size: 0.6rem;
+        }
+
+        .code p {
+          font-size: 1rem;
+        }
+
+        .or {
+          font-size: 1rem;
+        }
+
+        .alert p {
+          font-size: 1rem;
+        }
+      }
+    </style>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    />
+  </head>
+  <body>
+    <div class="alert" id="customAlert">
+      <h1>Welcome to YatraZen API Docs 📃</h1>
+      <p>
+        Follow the below steps to fetch the data from the API. Make sure to use
+        the correct API key.
+      </p>
+      <div class="code">
+        <p>fetch the data using the following command:</p>
+        <code>
+          curl -X GET <span class="url"></span> -H "x-api-key: your-x-api-key"
+        </code>
+        <h2 class="or">or</h2>
+        <code> <span class="curr-url"></span>?api_key=your-x-api-key </code>
+      </div>
+    </div>
+    <script>
+      const url = window.location.href;
+      document.querySelector(".url").textContent = url;
+      document.querySelector(".curr-url").textContent = url;
+    </script>
+  </body>
+</html>

@@ -1,0 +1,372 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>v3 Server</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      type="image/png"
+      sizes="120x120"
+      rel="icon"
+      href="./assets/favicon.png"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      :root {
+        --clr-main: #d75b4c;
+        --clr-dark: #333;
+        --clr-light: #fff;
+      }
+
+      body {
+        font-family: Inter, "sans-serif";
+        background: #1b1b1e;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        overflow: hidden;
+      }
+
+      .card a {
+        text-decoration: none;
+        color: #fff;
+        font-weight: 600;
+        font-size: 1.2rem;
+        padding: 20px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        border-radius: 10px;
+        background-color: #1b1b1e;
+        border: 2px solid #fff;
+        transition: all 0.3s ease;
+      }
+
+      .modal-card a {
+        text-decoration: none;
+        color: #fff;
+        font-weight: 600;
+        font-size: 1.2rem;
+        padding: 20px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        border-radius: 10px;
+        background-color: #1b1b1e;
+        border: 2px solid #fff;
+        transition: all 0.3s ease;
+      }
+
+      .modal-card a:hover {
+        background-color: #fff;
+        color: #1b1b1e;
+        transition: all 0.3s ease;
+        transform: scale(1.1);
+      }
+
+      .card button {
+        text-decoration: none;
+        color: #fff;
+        font-weight: 600;
+        font-size: 1.2rem;
+        padding: 20px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        border-radius: 10px;
+        background-color: #1b1b1e;
+        border: 2px solid #fff;
+        transition: all 0.3s ease;
+      }
+
+      .card a:hover {
+        background-color: #fff;
+        color: #1b1b1e;
+        transition: all 0.3s ease;
+        transform: scale(1.1);
+      }
+
+      .card button:hover {
+        background-color: #fff;
+        color: #1b1b1e;
+        transition: all 0.3s ease;
+        transform: scale(1.1);
+      }
+
+      .main {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .card {
+        border-radius: 20px;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+        width: 340px;
+        height: 340px;
+      }
+
+      h2 {
+        font-size: 2rem;
+      }
+
+      .sense a[data-tooltip]:hover::after {
+        content: attr(data-tooltip);
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #333;
+        color: #fff;
+        padding: 5px;
+        margin-top: 20px;
+        border-radius: 5px;
+        font-size: 12px;
+        white-space: nowrap;
+      }
+
+      .graphql {
+        border: 2px solid #f7c84c;
+      }
+
+      .sense {
+        border: 2px solid #006bff;
+      }
+
+      .upcoming-1 {
+        border: 2px solid #8ae990;
+      }
+
+      .upcoming-2 {
+        border: 2px solid #fc5750;
+      }
+
+      .watermark a {
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+        font-size: 14px;
+        color: #fff;
+        text-decoration: none;
+        border: 2px solid #fff;
+        padding: 5px 10px;
+        border-radius: 10px;
+        /* add blur to background */
+        background-color: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+      }
+
+      .watermark a:hover {
+        background-color: #fff;
+        color: #1b1b1e;
+        transition: all 0.3s ease;
+      }
+
+      .disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        pointer-events: none;
+      }
+
+      .modal {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        visibility: hidden;
+        transform: scale(1.1);
+        transition: visibility 0s linear 0.25s, opacity 0.25s 0s,
+          transform 0.25s;
+      }
+
+      .modal-card {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        height: 90%;
+        width: 100%;
+      }
+
+      .modal-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #151515;
+        padding: 2rem 2.5rem;
+        width: 20em;
+        height: 20em;
+        border-radius: 1rem;
+        border: 2px solid #fff;
+      }
+
+      .close-button {
+        float: right;
+        font-size: 1.2em;
+        width: 1em;
+        height: 1em;
+        line-height: 1;
+        padding: 0.3em;
+        text-align: center;
+        cursor: pointer;
+        border-radius: 0.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--clr-light);
+        color: var(--clr-dark);
+        transition: color 0.12s ease-in-out;
+      }
+
+      .close-button:hover {
+        color: var(--clr-main);
+      }
+
+      .show-modal {
+        opacity: 1;
+        visibility: visible;
+        transform: scale(1);
+        transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
+      }
+
+      a {
+        cursor: pointer;
+      }
+
+      /* ============ Media Queries ============ */
+
+      @media screen and (max-width: 1200px) {
+        body {
+          overflow: auto;
+        }
+
+        .main {
+          grid-template-columns: repeat(1, minmax(0, 1fr));
+        }
+
+        .card {
+          width: 220px;
+          height: 220px;
+          border-radius: 15px;
+        }
+
+        .card a {
+          font-size: 12px;
+        }
+
+        .card h2 {
+          font-size: 1.2rem;
+        }
+
+        .card button {
+          font-size: 12px;
+        }
+
+        .graphql {
+          margin-top: 20px;
+        }
+
+        .upcoming-2 {
+          margin-bottom: 20px;
+        }
+
+        .watermark a {
+          font-size: 12px;
+        }
+
+        .modal-content {
+          padding: 1rem 1.5rem;
+          width: 15em;
+          height: 15em;
+          border-radius: 0.5rem;
+        }
+
+        .close-button {
+          font-size: 1em;
+          width: 0.8em;
+          height: 0.8em;
+          padding: 0.2em;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="main">
+      <div class="modal">
+        <div class="modal-content">
+          <span class="close-button">&times;</span>
+          <div class="modal-card">
+            <a href="/graphql/feedback" data-tooltip="Go To GraphQL"
+              >GraphQL FeedBack</a
+            >
+            <a href="/graphql/hotel" data-tooltip="Go To GraphQL"
+              >GraphQL Hotels</a
+            >
+          </div>
+        </div>
+      </div>
+      <div class="card graphql">
+        <h2>v3 GraphQL Server</h2>
+        <p>All the dependent APIs for v3</p>
+        <button class="btn trigger">Go To GraphQL</button>
+      </div>
+      <div class="card sense">
+        <h2>v3 Sense Server</h2>
+        <p>For all the senseScore related APIs</p>
+        <a href="/senseScore" data-tooltip="Fetch The Score Of NEWS"
+          >Fetch Score</a
+        >
+      </div>
+      <div class="card upcoming-1">
+        <h2>v3 Upcoming Server</h2>
+        <p>Under Production</p>
+        <a href="#" class="disabled">Not Ready Yet</a>
+      </div>
+      <div class="card upcoming-2">
+        <h2>v3 Upcoming Server</h2>
+        <p>Under Production</p>
+        <a href="#" class="disabled">Not Ready Yet</a>
+      </div>
+      <div class="watermark">
+        <a href="https://github.com/ru-dr/" target="_blank">by ru-dr</a>
+      </div>
+    </div>
+    <script>
+      var modal = document.querySelector(".modal");
+      var triggers = document.querySelectorAll(".trigger");
+      var closeButton = document.querySelector(".close-button");
+
+      function toggleModal() {
+        modal.classList.toggle("show-modal");
+      }
+
+      function windowOnClick(event) {
+        if (event.target === modal) {
+          toggleModal();
+        }
+      }
+
+      for (var i = 0, len = triggers.length; i < len; i++) {
+        triggers[i].addEventListener("click", toggleModal);
+      }
+      closeButton.addEventListener("click", toggleModal);
+      window.addEventListener("click", windowOnClick);
+    </script>
+  </body>
+</html>
